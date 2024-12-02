@@ -25,7 +25,7 @@ def IsItSafe(report):
 
 
 # open input
-with open('testinput.txt', 'r') as file:
+with open('input.txt', 'r') as file:
     lines = file.read().splitlines()
 
 # format input
