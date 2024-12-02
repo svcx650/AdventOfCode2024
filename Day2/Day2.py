@@ -1,26 +1,44 @@
 
 def IsItSafe(report):
     levels = [int(i) for i in report.split()]
-    checks = []
-    for level in levels:
-        # check:
-        # The levels are either all increasing or all decreasing.
-        # Any two adjacent levels differ by at least one and at most three.
-        # return true if both conditions are met (or store it in checks and return that, but the former is cleaner)
+    check_inc = []
+    check_dec = []
+    
+    # check if decreasing
+    for index, level in enumerate(levels):
+        if index == 0: continue
+        elif levels[index-1] - level in range(1,4):
+            check_dec.append(True)
+        else:
+            check_dec.append(False)
 
-    if True in checks: return True
-    else return False
+    # check if increasing
+    for index, level in enumerate(levels):
+        if index == 0: continue
+        elif levels[index-1] - level in range (-3,0):
+            check_inc.append(True)
+        else:
+            check_inc.append(False)
+
+    if all(check_inc) or all(check_dec): return True
+    else: return False
 
 
 # open input
-with open('testinput.txt', 'r') as file:
-    reports = file.read().splitlines()
-
-
+with open('input.txt', 'r') as file:
+    lines = file.read().splitlines()
 
 # format input
-for report in reports:
-    IsItSafe(report)
+
+
+# find answer
+count = 0
+results = []
+for line in lines:
+    result = IsItSafe(line)
+    results.append(result)
+    if result: count += 1
 
 # report answer
-print('result: ',sum(simScores))
+print(results)
+print(count, ' safe reports')
