@@ -62,8 +62,8 @@ def FindMuls(line):
         # print('mul found for start index ', index)
         endIndex = index + endIndex # now is a true index
         mul = line[index:endIndex]
-        # print('found mul(', firstNumber, ',', secondNumber,')')
-        # print('appending: ',mul)
+        print('found mul(', firstNumber, ',', secondNumber,')')
+        print('appending: ',mul)
         muls.append(mul)
     return muls
 
@@ -75,14 +75,16 @@ def Multiplier(mul):
 
 
 # open input
-with open('input.txt', 'r') as file:
+with open('shortinput.txt', 'r') as file:
     lines = file.read().splitlines()
 
 
 # format input
 muls = []
+count_muls = 0
 for line in lines:
     output = FindMuls(line)
+    count_muls += 1
     # print(output)
     muls.extend(output)
 
@@ -95,4 +97,8 @@ for i in muls:
 
 # report answer
 # print(results)
+# print('len of lines', len(lines))
+# print('len of muls', len(muls))
+# print(count_muls)
+# print('len of results', len(results))
 print(sum(results))
