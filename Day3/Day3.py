@@ -23,11 +23,17 @@ def FindMuls(line):
     for index in startIndices:
         endIndex = None
         testString = line[index:index+12] ########### 12 is length needed to include longest valid mul (with closing parenthesis)
+        
+        # find and remove cases of 2 commas in testString which was causing me to miss 3 muls
+        if testString.count(',') > 1:
+            print('found multiple , in ',testString)
+            clipIndex = testString[::-1].find(',')
+            testString = testString[:-(clipIndex+1)]
         try: a, b = testString.split(',')
         except ValueError:
             # print('no , found for start index ',index,' which is test string ', testString)
             continue
-# mul(    456     789    )
+
         a_check = []
         for char in a[4:]:
             try: a_check.append(int(char)) ########## special char parsed as number?
@@ -75,8 +81,7 @@ def FindMuls(line):
         # print('mul found for start index ', index)
         endIndex = index + endIndex # now is a true index
         mul = line[index:endIndex]
-        print('found mul(', firstNumber, ',', secondNumber,')')
-        print('appending: ',mul)
+        # print('appending: ',mul) #### print it all
         muls.append(mul)
     # print('startindices', startIndices)
     return muls
@@ -113,13 +118,52 @@ results = []
 for i in muls:
     results.append(Multiplier(i))
 
-# # show input less the found muls for debugging
+'''
+louResults = []
+for index, lineOmuls in enumerate(mulsbyline):
+    louResults.append([])
+    for mul in enumerate(lineOmuls):
+        louResults[index].append(Multiplier(mul[1]))
+
+louResults = [sum(i) for i in louResults]
+alecResults = [31863451,
+               31654373,
+               30449898,
+               29710882,
+               34282875,
+               29233045]
+
+for index, value in enumerate(alecResults):
+    print('line:', index+1)
+    print(alecResults[index] - louResults[index])
+
+output:
+line: 1
+0
+line: 2
+0
+line: 3 # missing this mul (this is from input): {$[mul(75,880),$
+66000
+line: 4
+480 # missing mul(3,160) which is at a pseudo line break in cleanedoutput and input, from input: when()mul(3,160),
+line: 5
+0
+line: 6
+12320 # missing mul(77,160) which is at a pseudo line break only in cleaned output, from input: &@&mul(77,160),why
+187115724
+[Finished in 188ms]
+
+'''
+
+# show input less the found muls for debugging
 # cleanedInput = []
 # for index, mbl in enumerate(mulsbyline):
 #     cleanedLine = rmMuls(mbl, lines[index])
 #     # print('cleanedLine', cleanedLine)
 #     cleanedInput.append(cleanedLine)
 # for i in cleanedInput: print(i)
+
+# check for edge cases that may causae errors (none found)
 # numspaceparen = 0
 # numspacecomma = 0
 # commaspacenum = 0
