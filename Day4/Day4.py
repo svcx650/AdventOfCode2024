@@ -1,20 +1,33 @@
 
 def FindXMAS(line):  # accepts a string and finds matches of searchCriteria
     countxmases = 0
-    startIndices = []
     searchIndex = 0
-    searchCriteria = ['XMAS','SAMX']
-    for crit in searchCriteria:
-        minSearchLength = len(crit)
-        while searchIndex < (len(line) - minSearchLength): # exits if remaining string cannot contain the criteria
-            xmas = line.find(crit, searchIndex)
-            if xmas != -1:
-                countxmases += 1
-                searchIndex = xmas + 1
-            else:
-                searchIndex = len(line)
-                print(crit, 'not found.')
-                continue
+    Criteria = 'XMAS'
+    minSearchLength = len(Criteria)
+    while searchIndex < (len(line) - minSearchLength): # exits if remaining string cannot contain the criteria
+        xmas = line.find(Criteria, searchIndex)
+        if xmas != -1:
+            countxmases += 1
+            print('found', Criteria,'count is now',countxmases)
+            searchIndex = xmas + 1
+        else:
+            searchIndex = len(line)
+            print(Criteria, 'not found.')
+            continue
+    Criteria = 'SAMX'
+    minSearchLength = len(Criteria)
+    searchIndex = 0
+    while searchIndex < (len(line) - minSearchLength): # exits if remaining string cannot contain the criteria
+        xmas = line.find(Criteria, searchIndex)
+        if xmas != -1:
+            countxmases += 1
+            print('found', Criteria,'count is now',countxmases)
+            searchIndex = xmas + 1
+        else:
+            searchIndex = len(line)
+            print(Criteria, 'not found.')
+            continue
+
     return countxmases
 
 
