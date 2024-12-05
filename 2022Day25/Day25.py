@@ -54,7 +54,7 @@ for line in lines:
 
 print('target number: ', sum(results))
 translatedResult = DecimaltoSNAFU(sum(results))
-
+s
 # report
 # print(sum(results))
 print(translatedResult)
