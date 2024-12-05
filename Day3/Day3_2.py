@@ -29,10 +29,11 @@ def FindMuls(line):
 
         a_check = []
         for char in a[4:]:
-            try: a_check.append(int(char))
+            try: a_check.append(int(char)) ########## special char parsed as number?
             except ValueError: break
         if len(a_check) > 0 and len(a_check) < 4:
-            if len(a_check) == len(a[4:]): # check that 'a' number doesn't have invalid chars between it and the , that was previously split out
+            if len(a_check) == len(a[4:]): ##### double check this, remove
+            # check that number doesn't have invalid chars between it and the , that was previously split out
                 firstNumber = ''
                 for i in a_check:
                     firstNumber = firstNumber + str(i)
