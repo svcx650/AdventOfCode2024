@@ -74,11 +74,13 @@ rotatedinput = [lines, vertical, diag1, diag2] #adds horizontal (as provided inp
 
 # find answer
 countxmases = 0
-for line in rotatedinput:
+for matrix in rotatedinput:
     increment = 0
-    increment = FindXMAS(line)
-    countxmases += increment
-    print(increment)
+    for line in matrix:
+        increment = 0
+        increment = FindXMAS(line)
+        countxmases += increment
+        print(increment)
 
 
 # report answer
