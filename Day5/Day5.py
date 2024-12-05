@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # open input
 with open('testinput.txt', 'r') as file:
     lines = file.read().splitlines()
@@ -30,15 +23,8 @@ for line in lines[dividerIndex+1:]:
 #for each 
 
 
-# # find answer
-# countxmases = 0
-# for matrix in rotatedinput:
-#     increment = 0
-#     for line in matrix:
-#         increment = 0
-#         increment = FindXMAS(line)
-#         countxmases += increment
-#         print(increment)
+# find answer
+
 
 
 # # report answer

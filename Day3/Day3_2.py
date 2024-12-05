@@ -29,11 +29,10 @@ def FindMuls(line):
 
         a_check = []
         for char in a[4:]:
-            try: a_check.append(int(char)) ########## special char parsed as number?
+            try: a_check.append(int(char))
             except ValueError: break
         if len(a_check) > 0 and len(a_check) < 4:
-            if len(a_check) == len(a[4:]): ##### double check this, remove
-            # check that number doesn't have invalid chars between it and the , that was previously split out
+            if len(a_check) == len(a[4:]): # check that 'a' number doesn't have invalid chars between it and the , that was previously split out
                 firstNumber = ''
                 for i in a_check:
                     firstNumber = firstNumber + str(i)
@@ -77,11 +76,30 @@ def Multiplier(mul):
     a, b = int(a), int(b) # convert number strings to int
     return a * b 
 
-def rmMuls(muls,line):
-    cleanline = line
-    for i in muls:
-        cleanline = cleanline.replace(i,'')
-    return cleanline
+def DoOrDont(megaLine, allMuls):
+    results = []
+    scanIndex = 0
+    enabled = True
+    workingIndex = 0
+    while scanIndex <= len(megaLine):
+        if enabled:
+            workingIndex = megaLine.find("don't()")
+            # turn working index into mul index
+            
+            # process muls and append
+            for mul in enabledMuls:
+                results.append(Multiplier(mul))
+            
+            enabled = False ### Nothing goes in if statement below here
+        else:
+            megaLine.find("do()")
+            # turn working index into mul index
+            # discard muls
+            enabled = True ### Nothing goes in else statement below here
+        ### Nothing goes in while statement below here
+
+
+    return(results)
 
 
 # open input
@@ -98,55 +116,13 @@ for line in lines:
 
 
 # find answer
-results = []
-for i in muls:
-    results.append(Multiplier(i))
+enabledMuls = []
+### need to handle the enabling/disabling
+# make a mega string, give it to DoOrDont, DoOrDont uses multiplier, out comes results
+# use DoOrDont()
+# enable vs disabled needs to persist between lines
 
-'''
-louResults = []
-for index, lineOmuls in enumerate(mulsbyline):
-    louResults.append([])
-    for mul in enumerate(lineOmuls):
-        louResults[index].append(Multiplier(mul[1]))
-
-louResults = [sum(i) for i in louResults]
-alecResults = [31863451,
-               31654373,
-               30449898,
-               29710882,
-               34282875,
-               29233045]
-
-for index, value in enumerate(alecResults):
-    print('line:', index+1)
-    print(alecResults[index] - louResults[index])
-
-output:
-line: 1
-0
-line: 2
-0
-line: 3 # missing this mul (this is from input): {$[mul(75,880),$
-66000
-line: 4
-480 # missing mul(3,160) which is at a pseudo line break in cleanedoutput and input, from input: when()mul(3,160),
-line: 5
-0
-line: 6
-12320 # missing mul(77,160) which is at a pseudo line break only in cleaned output, from input: &@&mul(77,160),why
-187115724
-[Finished in 188ms]
-
-'''
-
-# show input less the found muls for debugging
-# cleanedInput = []
-# for index, mbl in enumerate(mulsbyline):
-#     cleanedLine = rmMuls(mbl, lines[index])
-#     # print('cleanedLine', cleanedLine)
-#     cleanedInput.append(cleanedLine)
-# for i in cleanedInput: print(i)
-
+results = DoOrDont(megaLine, muls)
 
 # report answer
 print(sum(results))
