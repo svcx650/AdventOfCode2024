@@ -4,34 +4,28 @@ def FindMuls(line):
     startIndices = []
     searchIndex = 0
     while searchIndex < (len(line) - 8): # exits if remaining string to search cannot contain a valid mul
-        # print('starting loop with searchindex ', searchIndex)
         startIndex = line.find('mul(', searchIndex)
         if startIndex == -1:
             searchIndex = len(line)
             continue
         else:
-            # print('appending ', startIndex)
             startIndices.append(startIndex)
             searchIndex = startIndex + 4 # minimum number of characters to skip that could be a valid mul(
-            # print('search index is now ', searchIndex)
 
     # now startIndices contains the indices of all the m's in 'mul(' that could be valid.
     if startIndices == []:
         # print('no mul( found on this line')
         return muls
-    # print(startIndices)
     for index in startIndices:
         endIndex = None
         testString = line[index:index+12] ########### 12 is length needed to include longest valid mul (with closing parenthesis)
         
         # find and remove cases of 2 commas in testString which was causing me to miss 3 muls
         if testString.count(',') > 1:
-            print('found multiple , in ',testString)
             clipIndex = testString[::-1].find(',')
             testString = testString[:-(clipIndex+1)]
         try: a, b = testString.split(',')
         except ValueError:
-            # print('no , found for start index ',index,' which is test string ', testString)
             continue
 
         a_check = []
@@ -45,24 +39,19 @@ def FindMuls(line):
                 for i in a_check:
                     firstNumber = firstNumber + str(i)
                 firstNumber = int(firstNumber)
-                # print('found first number ', firstNumber, ' for start index ', index)
             else:
-                # print('invalid first number (len incorrect) for start index ', index)
                 continue
         else:
-            # print('invalid first number (too short/long) for start index ', index)
             continue
         endIndex = len(a) + 1 # increment from index to comma
 
 
         secondNumber = b.split(')')[0]
         if len(secondNumber) == len(b):
-            # print('no ) found for start index ', index)
             continue
         endIndex += len(secondNumber) + 1 # increment from index to close parenthesis
         try: secondNumber = int(secondNumber)
         except ValueError:
-            # print('invalid second number ',secondNumber, ' for start index ', index)
             continue
 
         secondNumber = b.split(')')[0]
@@ -78,12 +67,9 @@ def FindMuls(line):
 
 
         # no continues by this point should mean it's a valid mull
-        # print('mul found for start index ', index)
         endIndex = index + endIndex # now is a true index
         mul = line[index:endIndex]
-        # print('appending: ',mul) #### print it all
         muls.append(mul)
-    # print('startindices', startIndices)
     return muls
 
 def Multiplier(mul):
@@ -109,7 +95,6 @@ mulsbyline = []
 for line in lines:
     output = FindMuls(line)
     muls.extend(output)
-    # print('output len', len(output))
     mulsbyline.append(output)
 
 
@@ -163,24 +148,6 @@ line: 6
 #     cleanedInput.append(cleanedLine)
 # for i in cleanedInput: print(i)
 
-# check for edge cases that may causae errors (none found)
-# numspaceparen = 0
-# numspacecomma = 0
-# commaspacenum = 0
-# for line in lines:
-#     numspaceparen = line.count(' )')
-#     numspacecomma = line.count(' ,')
-#     commaspacenum = line.count(', ')
-#     foundindex = line.find(' )')
-#     print(line[foundindex-4:foundindex+2])
-    # print('numspaceparen',numspaceparen)
-    # print('numspacecomma',numspacecomma)
-    # print('commaspacenum',commaspacenum)
-
 
 # report answer
-# print('len of lines', len(lines))
-# print('len of muls', len(muls))
-# print('len(muls)', len(muls))
-# print(results)
 print(sum(results))
