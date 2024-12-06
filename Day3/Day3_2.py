@@ -1,4 +1,3 @@
-import time
 def FindMuls(line):
     muls = []
     startIndices = []
@@ -14,7 +13,6 @@ def FindMuls(line):
 
     # now startIndices contains the indices of all the m's in 'mul(' that could be valid.
     if startIndices == []:
-        # print('no mul( found on this line')
         return muls
     returnIndices = []
     for index in startIndices:
@@ -86,35 +84,33 @@ def DoOrDont(megaString, allMuls, mulIndices):
     workingIndex = 0
     lastWI = 0
     lastDoIndex = 0
+    
+    # parse entire mega string for only the relevant do's and donts (first do after a dont and vice versa)
     while scanIndex < len(megaString):
-        # time.sleep(2)
         lastWI = workingIndex
         if enabled:
-            ### this portion doesn't process muls correctly if there was a do found previously
+            # if enabled, look for end of enablement (next dont), then process muls up to that point
             workingIndex = megaString.find("don't()", lastWI)
-            print('found dont', workingIndex)
-            # process and append muls with start indices less than workingIndex
+
+            #process muls from the last "do" found, up to the "don't" we just found
             for index, value in enumerate(mulIndices): #careful here because the values are indexes of the muls in the main string
                 if value > lastDoIndex and value < workingIndex:
-                    print('appending', allMuls[index])
                     results.append(Multiplier(allMuls[index]))
             enabled = False ### Nothing goes in if statement below here
-        else:
+        
+        else: # else we're not enabled, look for when we will be
             workingIndex = megaString.find("do()", lastWI)
-            print('found do', workingIndex)
-            print('lastresult',results[-1])
-            ####### set lower bound for mulls to be used
-            lastDoIndex = workingIndex
+            lastDoIndex = workingIndex # to be used as lower bound for muls that should be processed
             enabled = True ### Nothing goes in else statement below here
+        
+        # handle when do() or don't() isn't found (we're at the end of the mega string, close out accordingly)
         if workingIndex == -1:
             if enabled == False:
                 for lin, lval in enumerate(mulIndices): #careful here because the values are indexes of the muls in the main string
                     if lval > lastWI:
-                        print('finally, appending',allMuls[lin])
                         results.append(Multiplier(allMuls[lin]))
             scanIndex = len(megaString) # ends while loop
         else: scanIndex = workingIndex + 1
-
     return results
 
 
@@ -122,28 +118,32 @@ def DoOrDont(megaString, allMuls, mulIndices):
 with open('input.txt', 'r') as file:
     lines = file.read().splitlines()
 
-# format input
-muls = []
-mulIndices = []
+
+# store values needed to go from mul index within a line to within the mega string
 lineLengths = [0]
+cum_line_start_index = []
 for p in lines:
     lineLengths.append(len(p))
+for index, value in enumerate(lineLengths):
+    newValue = sum(lineLengths[:index])
+    cum_line_start_index.append(newValue)
+cum_line_start_index = cum_line_start_index[1:]
+
+# parse muls and mul indices
+muls = []
+mulIndices = []
 for index, line in enumerate(lines):
     returnedIndices = []
     output = None
     output, returnedIndices = FindMuls(line)
-    returnedIndices = [i + lineLengths[index] for i in returnedIndices]
+    returnedIndices = [i + cum_line_start_index[index] for i in returnedIndices]
     mulIndices.extend(returnedIndices)
     muls.extend(output)
 
 # find answer
-enabledMuls = []
-megaString = ''.join(lines)
-### need to handle the enabling/disabling
 # make a mega string, give it to DoOrDont, DoOrDont uses multiplier, out comes results
-# use DoOrDont()
-
+megaString = ''.join(lines)
 results = DoOrDont(megaString, muls, mulIndices)
 
-# # # report answer
+# report answer
 print('answer: ',sum(results))
