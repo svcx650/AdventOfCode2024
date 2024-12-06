@@ -71,7 +71,7 @@ def Rotate45(lines, RorL):
 
 
 ### open input
-with open('test1input.txt', 'r') as file:
+with open('testnuminput.txt', 'r') as file:
     lines = file.read().splitlines()
 
 
@@ -84,8 +84,6 @@ rotatedinput = [diag1, diag2]
 # find sam or mas in diag 1, record index of A for either case in 1 list
 allIndices = [] # becomes [[a coords matrix 1],[a coords matrix 2]]
 for index, matrix in enumerate(rotatedinput):
-    for i in matrix:
-        print(i)
     matrix_indices = []
     for diag_index, line in enumerate(matrix):
         a_indices = []
@@ -96,16 +94,12 @@ for index, matrix in enumerate(rotatedinput):
 
 diag1_indices = allIndices[0]
 diag2_indices = allIndices[1]
-print(diag1_indices)
 
-reg_coords = []
-for coords in diag1_indices:
-    rp, cp = coords[0] , coords[1] #row prime, column prime
-    r = int(round((rp + cp)/math.sqrt(2),0))
-    c = int(round((cp - rp)/math.sqrt(2),0))
-    reg_coord = [r, c]
-    reg_coords.append(reg_coord)
-print(reg_coords)
+for i in diag1:
+    print(i)
+
+for i in diag2:
+    print(i)
 
 # convert A_line_indices from diag 1 or 2 into terms of the other, compare, count matches, that's the answer
 count_xmas_s = 0
