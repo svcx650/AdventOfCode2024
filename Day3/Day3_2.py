@@ -84,48 +84,42 @@ def DoOrDont(megaString, allMuls, mulIndices):
     scanIndex = 0
     enabled = True
     workingIndex = 0
-    increment = 0 
     lastWI = 0
+    lastDoIndex = 0
     while scanIndex < len(megaString):
-        print(results)
-        print(scanIndex)
-        time.sleep(2)
+        # time.sleep(2)
         lastWI = workingIndex
         if enabled:
+            ### this portion doesn't process muls correctly if there was a do found previously
             workingIndex = megaString.find("don't()", lastWI)
             print('found dont', workingIndex)
             # process and append muls with start indices less than workingIndex
-            # while mulIndices[increment] < workingIndex and mulIndices[increment] > lastWI: #reverse conditions and maybe use if to skip this > cond on first pass
-            while mulIndices[increment] < workingIndex:
-                # time.sleep(5)
-                results.append(Multiplier(allMuls[increment]))
-                increment += 1
+            for index, value in enumerate(mulIndices): #careful here because the values are indexes of the muls in the main string
+                if value > lastDoIndex and value < workingIndex:
+                    print('appending', allMuls[index])
+                    results.append(Multiplier(allMuls[index]))
             enabled = False ### Nothing goes in if statement below here
         else:
             workingIndex = megaString.find("do()", lastWI)
             print('found do', workingIndex)
+            print('lastresult',results[-1])
             ####### set lower bound for mulls to be used
+            lastDoIndex = workingIndex
             enabled = True ### Nothing goes in else statement below here
         if workingIndex == -1:
             if enabled == False:
-                for index, value in enumerate(mulIndices): #careful here because the values are indexes of the muls in the main string
-                    if value > lastWI:
-                        results.append(Multiplier(allMuls[index]))
-                # while mulIndices[increment] < (len(megaString) - 3): #start this at a mul index greater than the lastWI and continue to end
-                #     time.sleep(5)
-                #     results.append(Multiplier(allMuls[increment]))
-                #     if mulIndices[increment] == mulIndices[-1]:
-                #         break # end this loop due to hitting last mul
-                #     increment += 1 
+                for lin, lval in enumerate(mulIndices): #careful here because the values are indexes of the muls in the main string
+                    if lval > lastWI:
+                        print('finally, appending',allMuls[lin])
+                        results.append(Multiplier(allMuls[lin]))
             scanIndex = len(megaString) # ends while loop
-            print(scanIndex)
         else: scanIndex = workingIndex + 1
 
     return results
 
 
 # open input
-with open('test2input.txt', 'r') as file:
+with open('input.txt', 'r') as file:
     lines = file.read().splitlines()
 
 # format input
@@ -152,4 +146,4 @@ megaString = ''.join(lines)
 results = DoOrDont(megaString, muls, mulIndices)
 
 # # # report answer
-print(sum(results))
+print('answer: ',sum(results))
