@@ -3,9 +3,17 @@ def RuleValidator(update, rules):
     output = []
     for rule in rules:
         # check that update contains both pages otherwise NA
-        # check rule against update and P or F
-        output.append()
-    return output # returns list of P/F/NA
+        try:
+            a = update.index(rule[0])
+            b = update.index(rule[1])
+            if a < b:
+                output.append('P')
+            else: output.append('F')
+        except ValueError:
+            output.append('NA')
+            continue
+    return output
+
 
 # open input
 with open('testinput.txt', 'r') as file:
@@ -33,18 +41,22 @@ for line in lines[dividerIndex+1:]:
 correctUpdates = []
 for update in updates:
     p_f_na = RuleValidator(update, rules)# check all rules and determine pass/fail/na
+    # print (p_f_na)
     if all(result in ('P', 'NA') for result in p_f_na):
+        print(update)
         correctUpdates.append(update)
 
-
-
+# print(correctUpdates)
 # find answer
 results = [] # will store middle page numbers of correctly ordered updates
 for i in correctUpdates:
-    middleIndex = (len(i) - 1)/2
+    # print('len', len(i))
+    middleIndex = int((len(i) - 1)/2)
+    # print('middle index', middleIndex)
+    # print(i[middleIndex])
     results.append(i[middleIndex])
 
 # # report answer
-print(sum(results))
+print('answer:', sum(results))
 # print(rules)
 # print(updates)
