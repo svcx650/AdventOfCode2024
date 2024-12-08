@@ -1,4 +1,3 @@
-
 def FindXMAS(line):  # accepts a string and finds matches of searchCriteria
     countxmases = 0
     countsamxes = 0
