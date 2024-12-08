@@ -76,3 +76,7 @@ for line in mappedArea:
 
 ### report answer
 print('Answer:', result)
+
+# Keep checking the spot in front of him, if it creates a loop then increment a counter and continue along path
+# how to check for loop:
+# orientation change here means the next obstacle distance 
