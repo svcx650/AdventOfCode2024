@@ -1,12 +1,3 @@
-import time
-
-def Joiner(listofListsofChars): # tested
-    output = []
-    for value in listofListsofChars:
-        line = ''.join(value)
-        output.append(line)
-    return output
-
 ### open input
 with open('input.txt', 'r') as file:
     lines = file.read().splitlines()
@@ -34,14 +25,12 @@ thruBoundary = False
 loopCount = 0
 while thruBoundary == False:
     # print(loopCount)
-    # time.sleep(3)
     if loopCount == 0: startPosition = currentPosition # on second loop this needs to be set to last position
     else: startPosition = lastPosition
     obstruction = False
     while obstruction == False:
         lastPosition = currentPosition[:]
         # print(lastPosition)
-        # time.sleep(1)
         currentPosition[0] = lastPosition[0] + orientIncrement[orientation][0] # increment rows based on orientation
         currentPosition[1] = lastPosition[1] + orientIncrement[orientation][1] # increment columns based on orientation
         try:

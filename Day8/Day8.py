@@ -3,8 +3,11 @@ with open('testinput.txt', 'r') as file:
     lines = file.read().splitlines()
 
 
-### format input
-
+# create a list of unique frequencies
+#for each item in list of unique frequencies:
+## find locations of antennas
+## calculate locations of antinodes and store on antiNode map
+# count antinodes from map
 
 
 ### find answer
