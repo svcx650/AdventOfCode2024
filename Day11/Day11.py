@@ -1,5 +1,5 @@
 ### open input
-with open('test2input.txt', 'r') as file:
+with open('input.txt', 'r') as file:
     line = file.read().splitlines()
 
 ### format input
@@ -7,7 +7,7 @@ stones = [int(i) for i in line[0].split(' ')]
 
 ### find answer
 allstones = [stones]
-for i in range(40):
+for i in range(40): # enter blinks in range
     newstones = []
     for index, stone in enumerate(stones):
         if stone == 0:
@@ -24,9 +24,10 @@ for i in range(40):
             newstones.append(stone*2024)
     stones = newstones[:]
     allstones.append(stones)
-    print(i)
+    print('Completed blink', i+1)
 
 ### report answer
 print(len(stones))
-stoned = [set(l) for l in allstones]
-print(len(stoned))
+# stoned = [set(l) for l in k for k in allstones]
+# stoned = set(stoned)
+# print(len(stoned))

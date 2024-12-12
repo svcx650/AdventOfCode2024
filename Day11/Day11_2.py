@@ -63,7 +63,8 @@ with open('input.txt', 'r') as file:
 ### format input
 stones = [int(i) for i in line[0].split(' ')]
 
-
+stoneDict = {} # will store 'stone' : 'result of 5 blinks of that stone' 
+numberDict = {} # will store 'numbered stone' : 'number of instances' of that numbered stone for latest blink
 
 ### find answer
 
@@ -75,7 +76,7 @@ stones = [int(i) for i in line[0].split(' ')]
 
 ### report answer
 # print('completed blinks, Number of stones:', blink25)
-blinking = BlinkBlink(stones,22) # change to 75 when ready
+blinking = BlinkBlink(stones,38) # change to 75 when ready
 print(blinking)
 
 # 238-255ms for 25 blinks on test2input.txt
@@ -84,7 +85,8 @@ print(blinking)
 # 6s for 35 blinks on input.txt
 # Day11 9.7s for 38 blinks (12585458)
 # this 20.4s for 38 blinks
-# Day11 24.0s for 40 blinks (29115525)
+# Day11 78.3s for 40 blinks 96740028
+# Day11_2 48.9s for 40 blinks (96740028)
 
-### Day11 takes 23.5 seconds for 40 blinks, but casting the full list of stones to a set results in a set length of 54
+### Day11 takes 78.3 seconds for 40 blinks, but casting the full list of stones to a set results in a set length of 54
 # if I store the number of each number then the sum of all of that is the answer. I can also shorten the run time by not recalculating numbers that have already been calculated
