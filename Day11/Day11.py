@@ -6,7 +6,8 @@ with open('test2input.txt', 'r') as file:
 stones = [int(i) for i in line[0].split(' ')]
 
 ### find answer
-for i in range(75):
+allstones = [stones]
+for i in range(40):
     newstones = []
     for index, stone in enumerate(stones):
         if stone == 0:
@@ -22,7 +23,10 @@ for i in range(75):
         else:
             newstones.append(stone*2024)
     stones = newstones[:]
+    allstones.append(stones)
     print(i)
 
 ### report answer
 print(len(stones))
+stoned = [set(l) for l in allstones]
+print(len(stoned))
