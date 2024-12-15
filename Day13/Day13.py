@@ -35,7 +35,8 @@ for index, line in enumerate(lines):
 minimumButtonPresses = []
 tokensRequired = 0
 for key in machines:
-    prizePosition = np.array(list(key))
+    newkey = [int(key[0])+10000000000000,int(key[1])+10000000000000]
+    prizePosition = np.array(newkey)
     equations = machines[key]
     answerflt = np.linalg.solve(equations, prizePosition)
     answer = []
@@ -44,38 +45,16 @@ for key in machines:
         elif 0.9999 <= i % 1 <= 1.001: answer.append(int(i+1))
         else: answer.append(i)
     print(answerflt, 'to', answer)
+    fractional = [i % 1 for i in answer]
     # fractional, integer = np.modf(answer)
-    fraction = [i % 1 for i in answer]
-    print(key, answer, fraction)
-    if all(fraction) == 0:
+    # print(key, answer, fractional)
+    if all(fractional) == 0:
         minimumButtonPresses.append(answer)
-        tokensRequired += 3*answer[0] + answer[1]
-        print('passed', tokensRequired)
+        tokensRequired += 3*int(answer[0]) + int(answer[1])
+        # if isinstance(tokensRequired, float):
+        #     print(tokensRequired, 'found to be int on machine:', prizePosition)
+        # print(tokensRequired, 'previous answer: 110267618472535')
+        # print('passed', tokensRequired)
     # print('prizePosition ', prizePosition,' answer is ',answer)
 
 # remove answers that have decimal places and multiply the remaining by the amount of tokens
-# tokensRequired = 0
-# for index, machine in enumerate(minimumButtonPresses):
-#     fractional, integer = np.modf(machine)
-#     print(machine, fractional)
-#     if all(fractional== 0.0):
-#         print('pass')
-#         tokensRequired += 3*machine[0] + machine[1]
-#     # print(tokensRequired, machine)
-
-
-
-# a*94 + b*22 = 8400
-# a*34 + b*67 = 5400
-# pizePosition = np.array([])
-### find answer
-
-# set up a system of equations
-# solve the system of equations
-# ....
-
-
-
-
-### report answer
-# print(len(stones))
