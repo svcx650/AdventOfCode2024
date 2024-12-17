@@ -3,46 +3,51 @@ with open('input.txt', 'r') as file:
     line = file.read().splitlines()
 
 ### format input
-stones = [int(i) for i in line[0].split(' ')]
-
+listStones = [int(i) for i in line[0].split(' ')]
+stones = {}
+for i in listStones:
+    if i in stones:
+        stones[i] += 1
+    else:
+        stones[i] = 1
 ### find answer
 
-# for each stone, check dictionary keys and use value for building next list of stones
-# test and compare run time (not a huge improvement)
-# further optimization: rather than a list of all stones, use a dictionary
-# where each key is a stone with a number and the value is the number of stones with that number
+# make a dictionary of the results of 5 iterations of each number and cache results
 
-
-numbers = {}
-for i in range(40/5): # enter blinks in range
-    newstones = []
-    for index, stone in enumerate(stones):
-        if stone in numbers:
-            newstones.append(numbers[stone])
-        else:
+for i in range(35): # enter blinks in range
+    newstones = {}
+    for stone in stones:
+        for count in range(stones[stone]):
             if stone == 0:
-                newstones.append(1)
+                if 1 in newstones: newstones[1] += 1
+                else: newstones[1] = 1
                 continue
             elif len(str(stone)) % 2 == 0:
                 string = str(stone)
                 a = int(string[:int((len(string)/2))])
                 b = int(string[int((len(string)/2)):])
-                newstones.append(a)
-                newstones.append(b)
+                if a in newstones: newstones[a] += 1
+                else: newstones[a] = 1
+                if b in newstones: newstones[b] += 1
+                else: newstones[b] = 1
                 continue
             else:
-                newstones.append(stone*2024)
-            numbers[stone] = newstones[-1]
-    stones = newstones[:]
-    allstones.append(stones)
+                if stone*2024 in newstones: newstones[stone*2024] += 1
+                else: newstones[stone*2024] = 1
+    stones = newstones.copy()
     print('Completed blink', i+1)
 
+numStones = 0
+for stone in stones:
+    numStones += stones[stone]
+
 ### report answer
-print(len(stones))
-stoned = {l for k in allstones for l in k}
-# stoned = set(stoned)
-print(len(stoned))
-# print(numbers)
+print(numStones)
+
+
 
 # 40 blinks for part 1 code: 76.6s
 # 40 blinks for dictionary (1 level): 71s
+# 25 blinks part1 on home pc 310ms
+# 35 blinks part1 on home pc 14.8s (11962408)
+# 35 blinks part2_2 on home pc 15.7s
