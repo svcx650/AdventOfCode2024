@@ -7,7 +7,7 @@ stones = [int(i) for i in line[0].split(' ')]
 
 ### find answer
 allstones = [stones]
-for i in range(35): # enter blinks in range
+for i in range(30): # enter blinks in range
     newstones = []
     for index, stone in enumerate(stones):
         if stone == 0:
@@ -28,6 +28,6 @@ for i in range(35): # enter blinks in range
 
 ### report answer
 print(len(stones))
-# stoned = [set(l) for l in k for k in allstones]
+# stoned = [l for k in allstones for l in k]
 # stoned = set(stoned)
 # print(len(stoned))
