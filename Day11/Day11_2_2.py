@@ -13,27 +13,41 @@ for i in listStones:
 ### find answer
 
 # make a dictionary of the results of 5 iterations of each number and cache results
-
+# make a neweststones variable and use it in the nested loops. At the end it can be checked against the numbers dict
+# this would involve removing continue statements
+numbers = {}
 for i in range(35): # enter blinks in range
     newstones = {}
     for stone in stones:
+        neweststone = []
         for count in range(stones[stone]):
+            # if stone in numbers:
+            #     for number in numbers[stone]:
+            #         if number in newstones: newstones[number] += 1
+            #         else: newstones[number] = 1
             if stone == 0:
-                if 1 in newstones: newstones[1] += 1
-                else: newstones[1] = 1
-                continue
+                neweststone.append(1)
+                # if 1 in newstones: newstones[1] += 1
+                # else: newstones[1] = 1
+                # continue
             elif len(str(stone)) % 2 == 0:
                 string = str(stone)
                 a = int(string[:int((len(string)/2))])
                 b = int(string[int((len(string)/2)):])
-                if a in newstones: newstones[a] += 1
-                else: newstones[a] = 1
-                if b in newstones: newstones[b] += 1
-                else: newstones[b] = 1
-                continue
+                neweststone.append(a)
+                neweststone.append(b)
+                # if a in newstones: newstones[a] += 1
+                # else: newstones[a] = 1
+                # if b in newstones: newstones[b] += 1
+                # else: newstones[b] = 1
+                # continue
             else:
-                if stone*2024 in newstones: newstones[stone*2024] += 1
-                else: newstones[stone*2024] = 1
+                neweststone.append(stone*2024)
+                # if stone*2024 in newstones: newstones[stone*2024] += 1
+                # else: newstones[stone*2024] = 1
+            for rock in neweststone:
+                if rock in newstones: newstones[rock] += 1
+                else: newstones[rock] = 1
     stones = newstones.copy()
     print('Completed blink', i+1)
 
